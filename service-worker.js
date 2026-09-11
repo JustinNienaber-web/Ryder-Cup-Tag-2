@@ -1,17 +1,17 @@
 "use strict";
 
-const CACHE_NAME = "rydercup-live-v4";
+const CACHE_NAME = "rydercup-live-v5";
 const SUPABASE_BIBLIOTHEK =
     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
 const APP_DATEIEN = [
     "./",
     "./index.html",
-    "./style.css",
+    "./style.css?v=5",
     "./config.js",
     "./platzdaten.js",
     "./sync.js",
-    "./app.js",
+    "./app.js?v=5",
     "./manifest.json",
     "./icon-192.png",
     "./icon-512.png",
@@ -63,7 +63,7 @@ self.addEventListener("fetch", (event) => {
 
     event.respondWith((async () => {
         try {
-            const antwort = await fetch(anfrage);
+            const antwort = await fetch(anfrage, { cache: "no-store" });
             if (antwort.ok) {
                 const cache = await caches.open(CACHE_NAME);
                 await cache.put(anfrage, antwort.clone());

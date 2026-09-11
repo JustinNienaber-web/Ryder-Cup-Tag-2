@@ -751,7 +751,10 @@ window.addEventListener("offline", verbindungsstatusAnzeigen);
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js").catch((fehler) => {
+        navigator.serviceWorker.register(
+            "./service-worker.js",
+            { updateViaCache: "none" }
+        ).then((registrierung) => registrierung.update()).catch((fehler) => {
             console.warn("Offline-Dienst konnte nicht aktiviert werden.", fehler);
         });
     });
