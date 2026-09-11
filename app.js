@@ -49,12 +49,49 @@ function startzeit(zeit) {
     return String(zeit ?? "").slice(0, 5);
 }
 
+function laeuftAlsInstallierteApp() {
+    return window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
+}
+
+function geraetezuordnungLaden() {
+    try {
+        const gespeichert = localStorage.getItem("rydercup-live-geraetezuordnung");
+        return gespeichert ? JSON.parse(gespeichert) : null;
+    } catch (fehler) {
+        console.warn("Gerätezuordnung war nicht lesbar.", fehler);
+        return null;
+    }
+}
+
+function geraetezuordnungSpeichern(nummer, bearbeitungsToken) {
+    localStorage.setItem(
+        "rydercup-live-geraetezuordnung",
+        JSON.stringify({ nummer, token: bearbeitungsToken })
+    );
+}
+
 function linkdaten() {
     const parameter = new URLSearchParams(location.search);
     const nummer = Number(parameter.get("match"));
+    const bearbeitungsToken = parameter.get("token")?.trim() ?? "";
+    const gueltigeNummer = Number.isInteger(nummer) && nummer >= 1 && nummer <= 7;
+
+    if (gueltigeNummer && bearbeitungsToken) {
+        geraetezuordnungSpeichern(nummer, bearbeitungsToken);
+        return { nummer, token: bearbeitungsToken };
+    }
+
+    if (laeuftAlsInstallierteApp()) {
+        const zuordnung = geraetezuordnungLaden();
+        if (zuordnung?.nummer && zuordnung?.token) {
+            return zuordnung;
+        }
+    }
+
     return {
-        nummer: Number.isInteger(nummer) && nummer >= 1 && nummer <= 7 ? nummer : null,
-        token: parameter.get("token")?.trim() ?? "",
+        nummer: gueltigeNummer ? nummer : null,
+        token: bearbeitungsToken,
     };
 }
 

@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "rydercup-live-v5";
+const CACHE_NAME = "rydercup-live-v6";
 const SUPABASE_BIBLIOTHEK =
     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
@@ -11,7 +11,7 @@ const APP_DATEIEN = [
     "./config.js",
     "./platzdaten.js",
     "./sync.js",
-    "./app.js?v=5",
+    "./app.js?v=6",
     "./manifest.json",
     "./icon-192.png",
     "./icon-512.png",
