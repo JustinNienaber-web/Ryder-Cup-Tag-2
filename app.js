@@ -30,6 +30,14 @@ function verbindungsstatusAnzeigen() {
     }
 }
 
+function statusUnterLochbuttonPlatzieren() {
+    verbindungsstatusAnzeigen();
+    const anzeige = document.getElementById("netzstatus");
+    if (anzeige) {
+        hauptkarte.appendChild(anzeige);
+    }
+}
+
 function text(wert) {
     return String(wert ?? "")
         .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
@@ -241,6 +249,7 @@ function vorschauAktualisieren() {
 }
 
 function lochAnzeigen() {
+    document.body.classList.add("eingabe-modus");
     const loch = PLATZ.loecher[runde.currentHole - 1];
     const scores = scoresFuerLoch(runde.currentHole);
     const personen = spielerliste(aktivesMatch);
@@ -290,6 +299,7 @@ function lochAnzeigen() {
     document.getElementById("bahnauswahl-oeffnen").addEventListener("click", bahnauswahlAnzeigen);
     document.getElementById("weiter").addEventListener("click", lochAbschliessen);
     vorschauAktualisieren();
+    statusUnterLochbuttonPlatzieren();
 }
 
 function bahnButtons(von, bis, titel) {
@@ -313,6 +323,7 @@ function bahnButtons(von, bis, titel) {
 }
 
 function bahnauswahlAnzeigen() {
+    document.body.classList.add("eingabe-modus");
     hauptkarte.innerHTML = `
         <p class="ueberzeile">Match ${aktivesMatch.match_number}</p>
         <h2>Gehe zu Bahn</h2>
@@ -338,6 +349,7 @@ function bahnauswahlAnzeigen() {
 }
 
 function ergebnisAnzeigen() {
+    document.body.classList.remove("eingabe-modus");
     const siegername = runde.winner === "red"
         ? TURNIER_CONFIG.redTeam
         : runde.winner === "purple"
@@ -383,6 +395,7 @@ function ergebnisAnzeigen() {
 }
 
 function scorecardAnzeigen() {
+    document.body.classList.remove("eingabe-modus");
     const personen = spielerliste(aktivesMatch);
     const abgeschlosseneLoecher = new Map(
         runde.completedHoles.map((eintrag) => [eintrag.hole, eintrag])
@@ -520,6 +533,7 @@ function lochAbschliessen() {
 }
 
 function matchstart(match) {
+    document.body.classList.remove("eingabe-modus");
     const lokal = lokalenZustandLaden();
     const zentral = match.state;
     const fortsetzbarerZustand = istLaufendeRunde(lokal)
@@ -634,6 +648,7 @@ function punktzahl(wert) {
 }
 
 function leaderboard(matches) {
+    document.body.classList.remove("eingabe-modus");
     const prognose = gesamtpunkte(matches, false);
     const offiziell = gesamtpunkte(matches, true);
 
