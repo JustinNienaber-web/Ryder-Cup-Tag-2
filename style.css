@@ -432,6 +432,16 @@ button {
     text-transform: uppercase;
 }
 
+.leaderboard-spieler .leaderboard-red {
+    color: var(--rot-dunkel);
+    font-weight: 700;
+}
+
+.leaderboard-spieler .leaderboard-purple {
+    color: var(--violett-dunkel);
+    font-weight: 700;
+}
+
 .status-pill {
     padding: 7px 9px;
     border-radius: 999px;

@@ -568,11 +568,15 @@ function matchstart(match) {
 
                 if (!bestaetigt) return;
 
-                runde = neuerZustand();
+                runde = {
+                    ...neuerZustand(),
+                    status: "not_started",
+                };
                 rueckkehrLoch = null;
+                aktivesMatch.state = runde;
                 lokalSpeichern();
                 void onlineSpeichern();
-                lochAnzeigen();
+                matchstart(aktivesMatch);
             });
         }
     }
@@ -661,7 +665,11 @@ function leaderboard(matches) {
             ${matches.map((match) => `
                 <article class="match-zeile status-${match.state?.status ?? "not_started"}">
                     <div><strong>Match ${match.match_number}</strong><span>${startzeit(match.start_time)} Uhr</span></div>
-                    <p>${namen(match.red_players)}<span class="gegen-klein">gegen</span>${namen(match.purple_players)}</p>
+                    <p class="leaderboard-spieler">
+                        <span class="leaderboard-red">${namen(match.red_players)}</span>
+                        <span class="gegen-klein">gegen</span>
+                        <span class="leaderboard-purple">${namen(match.purple_players)}</span>
+                    </p>
                     <span class="status-pill">${text(matchStatus(match))}</span>
                 </article>
             `).join("")}
