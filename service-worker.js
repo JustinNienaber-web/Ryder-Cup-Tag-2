@@ -1,6 +1,6 @@
 "use strict";
 
-const CACHE_NAME = "rydercup-live-v3";
+const CACHE_NAME = "rydercup-live-v4";
 const SUPABASE_BIBLIOTHEK =
     "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 
