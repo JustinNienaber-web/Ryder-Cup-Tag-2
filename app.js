@@ -246,6 +246,7 @@ function lochAnzeigen() {
     const personen = spielerliste(aktivesMatch);
     const wert = aggregate();
     hauptkarte.innerHTML = `
+        <button class="home-button" type="button" id="match-home">⌂ Home</button>
         <div class="loch-kopf">
             <div>
                 <p class="ueberzeile">Match ${aktivesMatch.match_number}</p>
@@ -270,6 +271,11 @@ function lochAnzeigen() {
                     : `Weiter zu Bahn ${loch.nummer + 1}`}
         </button>
     `;
+
+    document.getElementById("match-home").addEventListener("click", () => {
+        rueckkehrLoch = null;
+        matchstart(aktivesMatch);
+    });
 
     document.querySelectorAll(".score-button").forEach((button) => {
         button.addEventListener("click", () => {
@@ -530,7 +536,16 @@ function matchstart(match) {
             <div class="gegen">gegen</div>
             <section class="team-block team-violett"><span>${TURNIER_CONFIG.purpleTeam}</span><strong>${namen(match.purple_players)}</strong></section>
         </div>
-        ${token ? `<button class="primaer-button" type="button" id="start">${fortsetzbarerZustand ? "Match fortsetzen" : "Match starten"}</button>` : '<div class="hinweis-box">Bitte verwende den QR-Code dieses Matches.</div>'}
+        ${token ? `
+            <button class="primaer-button" type="button" id="start">
+                ${fortsetzbarerZustand ? "Match fortsetzen" : "Match starten"}
+            </button>
+            ${fortsetzbarerZustand ? `
+                <button class="gefahr-button" type="button" id="match-neu-starten">
+                    Match vollständig neu starten
+                </button>
+            ` : ""}
+        ` : '<div class="hinweis-box">Bitte verwende den QR-Code dieses Matches.</div>'}
     `;
     if (token) {
         document.getElementById("start").addEventListener("click", () => {
@@ -543,6 +558,23 @@ function matchstart(match) {
                 lochAnzeigen();
             }
         });
+
+        const neuStarten = document.getElementById("match-neu-starten");
+        if (neuStarten) {
+            neuStarten.addEventListener("click", () => {
+                const bestaetigt = window.confirm(
+                    "Wirklich neu starten? Alle bisherigen Scores und das Ergebnis dieses Matches werden gelöscht."
+                );
+
+                if (!bestaetigt) return;
+
+                runde = neuerZustand();
+                rueckkehrLoch = null;
+                lokalSpeichern();
+                void onlineSpeichern();
+                lochAnzeigen();
+            });
+        }
     }
 }
 
