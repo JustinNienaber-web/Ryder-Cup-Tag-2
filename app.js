@@ -264,10 +264,8 @@ function spielerkarte(person, loch, score) {
 }
 
 function teamblock(team, personen, loch, scores, wert) {
-    const teamname = team === "red" ? TURNIER_CONFIG.redTeam : TURNIER_CONFIG.purpleTeam;
     return `
         <section class="loch-team loch-team-${team}" id="team-${team}">
-            <h3>${text(teamname)}</h3>
             ${personen.map((person) => spielerkarte(person, loch, scores[person.id])).join("")}
             <div class="aggregat-zeile">
                 <span>Aggregat netto</span>
@@ -292,7 +290,6 @@ function lochAnzeigen() {
     const personen = spielerliste(aktivesMatch);
     const wert = aggregate();
     hauptkarte.innerHTML = `
-        <button class="home-button" type="button" id="match-home">⌂ Home</button>
         <div class="loch-kopf">
             <div>
                 <p class="ueberzeile">Match ${aktivesMatch.match_number}</p>
@@ -317,11 +314,6 @@ function lochAnzeigen() {
                     : `Weiter zu Bahn ${loch.nummer + 1}`}
         </button>
     `;
-
-    document.getElementById("match-home").addEventListener("click", () => {
-        rueckkehrLoch = null;
-        matchstart(aktivesMatch);
-    });
 
     document.querySelectorAll(".score-button").forEach((button) => {
         button.addEventListener("click", () => {

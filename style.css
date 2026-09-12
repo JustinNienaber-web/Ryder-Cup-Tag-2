@@ -41,7 +41,7 @@ body.eingabe-modus {
 }
 
 body.eingabe-modus .app {
-    padding-top: 10px;
+    padding-top: 4px;
 }
 
 body.eingabe-modus .app-header {
@@ -49,7 +49,7 @@ body.eingabe-modus .app-header {
 }
 
 body.eingabe-modus .hauptkarte {
-    padding-top: 18px;
+    padding-top: 12px;
 }
 
 .netzstatus {
@@ -759,26 +759,12 @@ button {
     transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 
-.loch-team h3 {
-    margin: 0 0 10px;
-    font-size: 0.78rem;
-    letter-spacing: 0.08em;
-}
-
 .loch-team-red {
     background: var(--rot-hell);
 }
 
-.loch-team-red h3 {
-    color: var(--rot-dunkel);
-}
-
 .loch-team-purple {
     background: var(--violett-hell);
-}
-
-.loch-team-purple h3 {
-    color: var(--violett-dunkel);
 }
 
 .loch-team-red.team-fuehrt {
